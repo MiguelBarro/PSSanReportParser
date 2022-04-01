@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Configuration>
+<ViewDefinitions>
+    <View>
+        <Name>Basic TSan report Table</Name>
+        <ViewSelectedBy>
+            <TypeName>eProsima.TSanReport.v1</TypeName>
+        </ViewSelectedBy>
+        <TableControl>
+            <TableHeaders>
+                <TableColumnHeader> <!-- data race or deadlock -->
+                    <Label>TSan reports a</Label>
+                    <Alignment>Left</Alignment>
+                    <Width>23</Width>
+                </TableColumnHeader>
+                <TableColumnHeader> <!-- process id -->
+                    <Width>5</Width>
+                    <Alignment>Center</Alignment>
+                </TableColumnHeader>
+                <TableColumnHeader> <!-- data race or deadlock -->
+                    <Label>Full report 📃</Label>
+                    <Alignment>Center</Alignment>
+                    <Width>60</Width>
+                </TableColumnHeader>
+                <TableColumnHeader> <!-- file path -->
+                    <Label>File 💾</Label>
+                    <Alignment>Right</Alignment>
+                    <Width>60</Width>
+                </TableColumnHeader>
+            </TableHeaders>
+            <TableRowEntries>
+                <TableRowEntry>
+                    <Wrap/>
+                    <TableColumnItems>
+                        <TableColumnItem>
+                            <PropertyName>type</PropertyName>
+                        </TableColumnItem>
+                        <TableColumnItem>
+                            <PropertyName>pid</PropertyName>
+                        </TableColumnItem>
+                        <TableColumnItem>
+                            <!-- Show only the first line -->
+                            <ScriptBlock>
+                                $lines = $_.report -split "`n"
+                                $lines[0] + " ➕ $($lines.count-1) lines"
+                            </ScriptBlock>
+                        </TableColumnItem>
+                        <TableColumnItem>
+                            <PropertyName>file</PropertyName>
+                        </TableColumnItem>
+                    </TableColumnItems>
+                </TableRowEntry>
+            </TableRowEntries>
+        </TableControl>
+    </View>
+    <View>
+        <Name>Basic TSan report List</Name>
+        <ViewSelectedBy>
+            <TypeName>eProsima.TSanReport.v1</TypeName>
+        </ViewSelectedBy>
+        <ListControl>
+            <ListEntries>
+                <ListEntry>
+                    <ListItems>
+                        <ListItem>
+                            <PropertyName>type</PropertyName>
+                        </ListItem>
+                        <ListItem>
+                            <PropertyName>pid</PropertyName>
+                        </ListItem>
+                        <ListItem>
+                            <Label>report 📃</Label>
+                            <ScriptBlock>
+                                $lines = $_.report -split "`n"
+                                0,-1 | % { if( $lines[$_].Length -gt 80)
+                                { $lines[$_] = $lines[$_].substring(0,79) + "⋯"}}; 
+                                $lines[0] + "`n`t⋮`t⋮`t⋮" +
+                                    "➕ $($lines.count -2) lines" +
+                                    "`t⋮`t⋮`t⋮`n" + $lines[-1]
+                            </ScriptBlock>
+                        </ListItem>
+                        <ListItem>
+                            <Label>file 💾</Label>
+                            <PropertyName>file</PropertyName>
+                        </ListItem>
+                    </ListItems>
+                </ListEntry>
+            </ListEntries>
+        </ListControl>
+    </View>
+    <View>
+        <Name>Extended TSan report Table</Name>
+        <ViewSelectedBy>
+            <TypeName>eProsima.TSanReport.v1#hashes</TypeName>
+        </ViewSelectedBy>
+        <TableControl>
+            <TableHeaders>
+                <TableColumnHeader> <!-- data race or deadlock -->
+                    <Label>TSan reports a</Label>
+                    <Alignment>Left</Alignment>
+                    <Width>23</Width>
+                </TableColumnHeader>
+                <TableColumnHeader> <!-- MD5 hash, to be truncated -->
+                    <Label>   MD5 hash   </Label>
+                    <Width>32</Width>
+                    <Alignment>Center</Alignment>
+                </TableColumnHeader>
+                <TableColumnHeader> <!-- process id -->
+                    <Width>5</Width>
+                    <Alignment>Center</Alignment>
+                </TableColumnHeader>
+                <TableColumnHeader> <!-- fuzzy hash -->
+                    <Label>fuzzy 😎</Label>
+                    <Width>8</Width>
+                </TableColumnHeader>
+                <TableColumnHeader> <!-- file path -->
+                    <Label>File 💾</Label>
+                    <Alignment>Right</Alignment>
+                    <Width>60</Width>
+                </TableColumnHeader>
+                <!-- we are going to ignore the report in this view -->
+            </TableHeaders>
+            <TableRowEntries>
+                <TableRowEntry>
+                    <Wrap/>
+                    <TableColumnItems>
+                        <TableColumnItem>
+                            <PropertyName>type</PropertyName>
+                        </TableColumnItem>
+                        <TableColumnItem>
+                            <PropertyName>MD5hash</PropertyName>
+                        </TableColumnItem>
+                        <TableColumnItem>
+                            <PropertyName>pid</PropertyName>
+                        </TableColumnItem>
+                        <TableColumnItem>
+                            <PropertyName>fuzzhash</PropertyName>
+                            <Alignment>Right</Alignment>
+                        </TableColumnItem>
+                        <TableColumnItem>
+                            <PropertyName>file</PropertyName>
+                        </TableColumnItem>
+                    </TableColumnItems>
+                </TableRowEntry>
+            </TableRowEntries>
+        </TableControl>
+    </View>
+    <View>
+        <Name>Extended TSan report List</Name>
+        <ViewSelectedBy>
+            <TypeName>eProsima.TSanReport.v1#hashes</TypeName>
+        </ViewSelectedBy>
+        <ListControl>
+            <ListEntries>
+                <ListEntry>
+                    <ListItems>
+                        <ListItem>
+                            <PropertyName>type</PropertyName>
+                        </ListItem>
+                        <ListItem>
+                            <PropertyName>MD5hash</PropertyName>
+                        </ListItem>
+                        <ListItem>
+                            <Label>fuzzhash 😎</Label>
+                            <PropertyName>fuzzhash</PropertyName>
+                        </ListItem>
+                        <ListItem>
+                            <PropertyName>pid</PropertyName>
+                        </ListItem>
+                        <ListItem>
+                            <Label>report 📃</Label>
+                            <ScriptBlock>
+                                $lines = $_.report -split "`n"
+                                0,-1 | % { if( $lines[$_].Length -gt 80)
+                                { $lines[$_] = $lines[$_].substring(0,79) + "⋯"}}; 
+                                $lines[0] + "`n`t⋮`t⋮`t⋮" +
+                                    "➕ $($lines.count -2) lines" +
+                                    "`t⋮`t⋮`t⋮`n" + $lines[-1]
+                            </ScriptBlock>
+                        </ListItem>
+                        <ListItem>
+                            <Label>file 💾</Label>
+                            <PropertyName>file</PropertyName>
+                        </ListItem>
+                    </ListItems>
+                </ListEntry>
+            </ListEntries>
+        </ListControl>
+    </View>
+</ViewDefinitions>
+</Configuration>
