@@ -24,12 +24,12 @@ Collection of report objects extracted from the inputs.
 To parse from several files is advisable to used the -Path argument because it provides
 parallelization and progress report.
 
-PS> Show-TSan (ls t.*)
+PS> Show-TSan (gci t.*)
 
 .Example
 Is posible to feed files into the pipeline but that disables paralellization.
 
-PS> (ls t.*) | Show-TSan
+PS> (gci t.*) | Show-TSan
 
 .Example
 To parse reports from pipeline:
@@ -41,12 +41,12 @@ any non report related text would be discarded.
 .Example
 Is possible to speed up report processing if hashing is disabled:
 
-PS> Show-TSan (ls t.*) -NoHash
+PS> Show-TSan (gci t.*) -NoHash
 
 .Example
 Use fuzzy logic to check the most popular reported deadlock issue.
 
-PS> $g = Show-TSan (ls) | ? type -NotMatch race | Group-Object -Property fuzzhash
+PS> $g = Show-TSan (gci) | ? type -NotMatch race | Group-Object -Property fuzzhash
 PS> $g | sort -Property Count -Descending | select name, count -first 3
 
     Name Count
@@ -59,7 +59,7 @@ PS> $g | sort -Property Count -Descending | select name, count -first 3
 Thread-Sanitizer has a tendency to duplicate the same report. In this case the MD5hash
 would be the same and duplicates can be easily removed by doing:
 
-PS> Show-TSan (ls t.*) | sort md5hash | Get-Unique -AsString | measure
+PS> Show-TSan (gci t.*) | sort md5hash | Get-Unique -AsString | measure
 #>
 function Show-TSan {
     [Alias('sts')]
