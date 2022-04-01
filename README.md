@@ -9,10 +9,10 @@ See [Installing PowerShellGet](https://docs.microsoft.com/en-us/powershell/scrip
 
 ```powershell
 # install for all users (requires elevation)
-Install-Module -Name PSSanReportParser -Scope AllUsers
+Install-Module -Name SanReportParser -Scope AllUsers
 
 # install for current user
-Install-Module -Name PSSanReportParser -Scope CurrentUser
+Install-Module -Name SanReportParser -Scope CurrentUser
 ```
 
 ## Quick Start

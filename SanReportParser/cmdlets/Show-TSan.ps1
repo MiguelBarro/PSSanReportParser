@@ -60,6 +60,11 @@ Thread-Sanitizer has a tendency to duplicate the same report. In this case the M
 would be the same and duplicates can be easily removed by doing:
 
 PS> Show-TSan (gci t.*) | sort md5hash | Get-Unique -AsString | measure
+
+.Link
+
+https://github.com/MiguelBarro/PSSanReportParser
+
 #>
 function Show-TSan {
     [Alias('sts')]
