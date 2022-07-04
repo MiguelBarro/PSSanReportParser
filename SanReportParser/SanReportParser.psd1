@@ -12,7 +12,7 @@
 RootModule = 'cmdlets.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.0.0'
+ModuleVersion = '1.1.0'
 
 # Supported PSEditions
 CompatiblePSEditions = 'Desktop', 'Core'
@@ -69,7 +69,7 @@ FormatsToProcess = 'tsan.ps1xml'
 # NestedModules = @()
 
 # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
-FunctionsToExport = 'Show-TSan'
+FunctionsToExport = 'Show-TSan', 'Show-ASan'
 
 # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
 CmdletsToExport = @()
@@ -78,7 +78,7 @@ CmdletsToExport = @()
 VariablesToExport = @()
 
 # Aliases to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no aliases to export.
-AliasesToExport = 'sts'
+AliasesToExport = 'sts', 'sas'
 
 # DSC resources to export from this module
 # DscResourcesToExport = @()
@@ -87,7 +87,7 @@ AliasesToExport = 'sts'
 # ModuleList = @()
 
 # List of all files packaged with this module
-FileList = 'cmdlets.psm1', 'cmdlets\Show-Tsan.ps1', 'tsan.ps1xml'
+FileList = 'cmdlets.psm1', 'cmdlets\Show-TSan.ps1', 'cmdlets\Show-ASan.ps1', 'tsan.ps1xml'
 
 # Private data to pass to the module specified in RootModule/ModuleToProcess. This may also contain a PSData hashtable with additional module metadata used by PowerShell.
 PrivateData = @{
@@ -95,7 +95,7 @@ PrivateData = @{
     PSData = @{
 
         # Tags applied to this module. These help with module discovery in online galleries.
-        Tags = 'ThreadSanitizer', 'Sanitizer', 'c++', 'eProsima', 'Fast-DDS'
+        Tags = 'ThreadSanitizer', 'AddressSanitizer', 'Sanitizer', 'c++', 'eProsima', 'Fast-DDS'
 
         # A URL to the license for this module.
         LicenseUri = 'https://raw.githubusercontent.com/MiguelBarro/PSSanReportParser/main/LICENSE'
@@ -107,7 +107,7 @@ PrivateData = @{
         IconUri = 'https://www.eprosima.com/images/favicon.ico'
 
         # ReleaseNotes of this module
-        ReleaseNotes = 'Initial Release: 1.0.0'
+        ReleaseNotes = 'https://raw.githubusercontent.com/MiguelBarro/PSSanReportParser/main/Changelog.md'
 
         # Prerelease string of this module
         # Prerelease = ''
