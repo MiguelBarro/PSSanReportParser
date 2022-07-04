@@ -176,22 +176,17 @@ function Show-ASan {
                     $current.PSObject.TypeNames.Insert(0,"eProsima.TSanReport.v1#hashes")
 
                     # quick and dirty fuzzy hash, it depends on the kind of report (deadlocks have a larger variance than the data races)
+                    $module = 100000
                     switch -exact ($current.type)
                     {
-                        { $_ -in 'access-violation',
-                                 'heap-use-after-free',
-                                 'new-delete-type-mismatch',
-                                 'stack-use-after-scope'
-                        } {
-                            # admit little differences, about 100 chars
-                            $current.report.ToCharArray() | % { $fuzzhash = 0 }{ $fuzzhash += [int]$_ }{ $fuzzhash /= 10000 };
-                        }
-                        default
-                        {
-                            # admit little differences, about 100 chars
-                            $current.report.ToCharArray() | % { $fuzzhash = 0 }{ $fuzzhash += [int]$_ }{ $fuzzhash /= 10000 };
-                        }
+                        "heap-use-after-free" { $module *= 3 }
+                        "new-delete-type-mismatch" { $module *= 8 }
+                        default { }
                     }
+
+                    # admit little differences, about 100 chars
+                    $current.report.ToCharArray() | % { $fuzzhash = 0 }{ $fuzzhash += [int]$_ }{ $fuzzhash /= $module };
+
                     # let's quickly weight also the issue reported
                     $fuzzhash += 100 * $current.type.length
 
